@@ -22,7 +22,6 @@ namespace FP._059_NAGASystems_Prod4.Controllers
             _habitacionServicio = new HabitacionServicio(context); 
         }
 
-        // Método para mostrar habitaciones disponibles
         [HttpPost]
         public async Task<IActionResult> VerHabitacionesDisponibles(string fechaInicioStr, string fechaFinStr)
         {
@@ -43,7 +42,13 @@ namespace FP._059_NAGASystems_Prod4.Controllers
                     return View();
                 }
 
-                var habitaciones = await _habitacionServicio.ObtenerHabitacionesDisponibles(fechaInicio, fechaFin);
+                var habitaciones = await _context.Habitacion
+                    .Where(h => !h.Reservas.Any(r => r.FechaFin > fechaInicio && r.FechaInicio < fechaFin))
+                    .ToListAsync();
+
+                ViewBag.FechaInicio = fechaInicioStr; // Almacenar fechas en ViewBag para uso posterior
+                ViewBag.FechaFin = fechaFinStr;
+
                 return View("HabitacionesDisponibles", habitaciones);
             }
             catch (FormatException)

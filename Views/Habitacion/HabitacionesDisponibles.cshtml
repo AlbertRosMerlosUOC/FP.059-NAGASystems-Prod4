@@ -1,5 +1,4 @@
 ﻿@model IEnumerable<CapaModelo.Habitacion>
-
 @{
     ViewData["Title"] = "Habitaciones Disponibles";
 }
@@ -14,6 +13,7 @@
                 <th>Número</th>
                 <th>Tipo de Habitación</th>
                 <th>Estado</th>
+                <th>Acción</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +23,9 @@
                     <td>@habitacion.Numero</td>
                     <td>@habitacion.TipoHabitacionId</td>
                     <td>@((habitacion.Estado == 1) ? "Activa" : "Inactiva")</td>
+                    <td>
+                        <a href="@Url.Action("Create", "Reserva", new { habitacionId = habitacion.Numero, fechaInicio = ViewBag.FechaInicio, fechaFin = ViewBag.FechaFin })" class="btn btn-success">Reservar</a>
+                    </td>
                 </tr>
             }
         </tbody>

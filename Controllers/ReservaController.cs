@@ -63,6 +63,9 @@ namespace FP._059_NAGASystems_Prod4
             {
                 return NotFound("Reserva no encontrada o ya está cancelada.");
             }
+            var servicios = await _context.Servicio.ToListAsync();
+            ViewBag.ServiciosDisponibles = servicios;
+            ViewBag.NoServices = !servicios.Any(); // Flag para verificar si hay servicios
 
             // Detalles de cálculo
             double precioHabitacion = reserva.Habitacion.TipoHabitacion.Precio;
@@ -87,7 +90,7 @@ namespace FP._059_NAGASystems_Prod4
         // POST: Reserva/ConfirmCheckOut/5
         [HttpPost, ActionName("ConfirmCheckOut")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ConfirmCheckOut(int id)
+        public async Task<IActionResult> ConfirmCheckOut(int id, decimal totalFactura)
         {
             var reserva = await _context.Reserva
                 .Include(r => r.Habitacion)
@@ -100,21 +103,8 @@ namespace FP._059_NAGASystems_Prod4
             {
                 return NotFound();
             }
-            // Calcula el total de días.
-            int totalDias = (reserva.FechaFin - reserva.FechaInicio).Days;
-            if (totalDias == 0) totalDias = 1;  // Asegura que al menos un día es cobrado
 
-            // Convertir el coeficiente de porcentaje a formato decimal
-            double coeficienteDecimal = reserva.TipoTemporada.Coeficiente / 100.0;
-
-            // Calcular el costo base aplicando el coeficiente
-            double costoBase = (reserva.TipoAlojamiento.Precio + reserva.Habitacion.TipoHabitacion.Precio) * coeficienteDecimal;
-
-            // Calcular el total multiplicando por los días
-            double totalCosto = costoBase * totalDias;
-
-            // Actualizar la factura de la reserva
-            reserva.Factura = (decimal)totalCosto;
+            reserva.Factura = totalFactura;
 
             // Guarda los cambios en la base de datos.
             _context.Update(reserva);
@@ -126,26 +116,32 @@ namespace FP._059_NAGASystems_Prod4
 
         // GET: Reserva/Create
         [HttpGet]
-        public IActionResult Create()
+        public IActionResult Create(int? habitacionId, DateTime? fechaInicio, DateTime? fechaFin)
         {
-            PopulateSelectLists();  // Usar el método auxiliar para configurar los SelectList
+            PopulateSelectLists();  // Configura los SelectList
 
-            // Obtener una lista de todos los clientes
+            // Preconfigura los datos si vienen de la página de disponibilidad de habitaciones
+            var reserva = new Reserva
+            {
+                HabitacionId = habitacionId ?? 0,
+                FechaInicio = fechaInicio ?? DateTime.Today,
+                FechaFin = fechaFin ?? DateTime.Today.AddDays(1),
+                Factura = 0,
+                Cancelado = 0,
+                CheckIn = 0
+            };
+
+            // Configura el ViewBag para los DNI
             var clientes = _context.Cliente.ToList();
-
-            // Crear una lista de SelectListItem donde cada elemento tiene el DNI como valor y el DNI y el nombre como texto
             var dniItems = clientes.Select(c => new SelectListItem
             {
                 Value = c.DNI.ToString(),
                 Text = $"{c.DNI} - {c.Nombre}"
             }).ToList();
-
-            // Agregar una opción "Ninguno" al principio de la lista
-            dniItems.Insert(0, new SelectListItem { Value = null, Text = "Ninguno", Selected = true });
-
+            dniItems.Insert(0, new SelectListItem { Value = null, Text = "Seleccione un DNI", Selected = true });
             ViewBag.DNI = new SelectList(dniItems, "Value", "Text");
 
-            return View(new Reserva { Factura = 0, Cancelado = 0, CheckIn = 0 }); // Establece valores predeterminados
+            return View(reserva);
         }
 
         // POST: Reserva/Create
@@ -155,28 +151,73 @@ namespace FP._059_NAGASystems_Prod4
         {
             if (ModelState.IsValid)
             {
-                // Buscar la habitación seleccionada
-                var habitacion = await _context.Habitacion.FirstOrDefaultAsync(h => h.Numero == reserva.HabitacionId);
-                if (habitacion == null)
+                // Comprueba si la habitación está disponible en las fechas seleccionadas
+                bool isRoomAvailable = !_context.Reserva.Any(r => r.HabitacionId == reserva.HabitacionId &&
+                                                                  r.FechaFin > reserva.FechaInicio &&
+                                                                  r.FechaInicio < reserva.FechaFin &&
+                                                                  r.Cancelado == 0);
+                if (!isRoomAvailable)
                 {
-                    ModelState.AddModelError("", "La habitación seleccionada no existe.");
-                    return View(reserva);
+                    ModelState.AddModelError("", "La habitación seleccionada no está disponible en las fechas elegidas. Por favor, elige otra habitación o cambia las fechas.");
                 }
+                else
+                {
+                    // Buscar la habitación seleccionada
+                    var habitacion = await _context.Habitacion.FirstOrDefaultAsync(h => h.Numero == reserva.HabitacionId);
+                    if (habitacion == null)
+                    {
+                        ModelState.AddModelError("", "La habitación seleccionada no existe.");
+                    }
+                    else
+                    {
+                        // Actualizar el estado de la habitación seleccionada
+                        habitacion.Estado = 1;  // Marcar la habitación como no disponible
+                        _context.Update(habitacion);
 
-                // Actualizar el estado de la habitación seleccionada
-                habitacion.Estado = 1;  // Marcar la habitación como no disponible
-                _context.Update(habitacion);
+                        // Agregar la reserva a la base de datos
+                        _context.Add(reserva);
+                        await _context.SaveChangesAsync();
 
-                // Agregar la reserva a la base de datos
-                _context.Add(reserva);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction(nameof(Index));
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
             }
 
-            // Recargar SelectList en caso de modelo no válido, manteniendo selecciones del usuario
+            // Preparar las listas desplegables y los datos necesarios para volver a la vista en caso de error
             PopulateSelectLists(reserva.TipoAlojamientoId, reserva.TipoTemporadaId, reserva.OfertaId, reserva.HabitacionId);
+            PrepareDniSelectList();
             return View(reserva);
+        }
+
+        [HttpGet]
+        public IActionResult CrearReservaDesdeDisponibilidad(int numeroHabitacion, string fechaInicioStr, string fechaFinStr)
+        {
+            if (string.IsNullOrEmpty(fechaInicioStr) || string.IsNullOrEmpty(fechaFinStr))
+            {
+                ViewBag.Error = "Debe especificar ambas fechas.";
+                return View("Error");
+            }
+
+            if (!DateTime.TryParse(fechaInicioStr, out DateTime fechaInicio) || !DateTime.TryParse(fechaFinStr, out DateTime fechaFin))
+            {
+                ViewBag.Error = "Formato de fecha incorrecto.";
+                return View("Error");
+            }
+
+            return RedirectToAction("Create", "Reserva", new { habitacionId = numeroHabitacion, fechaInicio = fechaInicio, fechaFin = fechaFin });
+        }
+
+        private void PrepareDniSelectList()
+        {
+            var clientes = _context.Cliente.ToList();
+            var dniItems = clientes.Select(c => new SelectListItem
+            {
+                Value = c.DNI.ToString(),
+                Text = $"{c.DNI} - {c.Nombre}"
+            }).ToList();
+
+            dniItems.Insert(0, new SelectListItem { Value = null, Text = "Seleccione un DNI", Selected = true });
+            ViewBag.DNI = new SelectList(dniItems, "Value", "Text");
         }
 
 

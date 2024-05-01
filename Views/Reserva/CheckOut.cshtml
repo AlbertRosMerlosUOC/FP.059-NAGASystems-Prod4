@@ -1,5 +1,7 @@
 ﻿@model CapaModelo.Reserva
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <h2>Confirmar Check-Out</h2>
 
 <div>
@@ -7,10 +9,51 @@
     <p>Precio del tipo de alojamiento: @ViewBag.PrecioTipoAlojamiento €</p>
     <p>Coeficiente de la temporada: @ViewBag.Coeficiente %</p>
     <p>Días de estancia: @ViewBag.TotalDias</p>
-    <p><strong>Total estimado: @ViewBag.TotalCosto €</strong></p>
+    <p><strong>Total estimado: <span id="totalEstimado">@ViewBag.TotalCosto</span> €</strong></p>
+    <input type="hidden" id="precioInicial" value="@ViewBag.TotalCosto" />
 </div>
-
-<!-- Formulario de confirmación para el check-out -->
 <form asp-action="ConfirmCheckOut" asp-route-id="@Model.Id" method="post">
-    <button type="submit" class="btn btn-warning">Confirmar Check-Out</button>
+    <input type="hidden" id="totalFactura" name="totalFactura" value="@ViewBag.TotalCosto" />
+    <div class="form-group">
+        <label>Añadir Servicios:</label>
+        @if (ViewBag.ServiciosDisponibles != null && ViewBag.ServiciosDisponibles.Count > 0)
+        {
+            foreach (var servicio in ViewBag.ServiciosDisponibles as List<CapaModelo.Servicio>)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="selectedServices[@servicio.Id].IsSelected" value="true">
+                    <input class="precio" type="hidden" value="@servicio.Precio">
+                    <label class="form-check-label">
+                        @servicio.Descripcion (@servicio.Precio €)
+                    </label>
+                    <input type="number" name="selectedServices[@servicio.Id].Cantidad" value="1" min="1" class="form-control servicio-cantidad cantidad" onchange="javascript:recalculoTotalEstimado();">
+                </div>
+            }
+        }
+        else
+        {
+            <p>No hay servicios disponibles para añadir.</p>
+        }
+    </div>
+    <button type="submit" class="btn btn-primary">Confirmar Check-Out y Añadir Servicios</button>
 </form>
+
+<script>
+    $(document).ready(function () {
+        $('input[type="checkbox"]').change(function () {
+            recalculoTotalEstimado();
+        });
+    });
+
+    function recalculoTotalEstimado() {
+        var total = parseFloat($('#precioInicial').val().replace(",", "."));
+        $('input[type="checkbox"]:checked').each(function () {
+            var precio = parseFloat($(this).closest('.form-check').find('.precio').val());
+            var cantidad = parseInt($(this).closest('.form-check').find('.cantidad').val());
+            total += parseFloat(precio) * parseFloat(cantidad);
+        });
+        var formattedTotal = total.toFixed(2).replace('.', ',');
+        $('#totalEstimado').text(formattedTotal);
+        $('#totalFactura').val(formattedTotal);
+    }
+</script>

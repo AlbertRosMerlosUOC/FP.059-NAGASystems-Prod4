@@ -8,9 +8,18 @@ namespace CapaModelo
     {
         [Key]
         public int Id { get; set; }
-        public int Reserva { get; set; }
-        public int Servicio { get; set; }
+
+        [ForeignKey("Reserva")]
+        public int ReservaId { get; set; }
+        public Reserva Reserva { get; set; }
+
+        [ForeignKey("Servicio")]
+        public int ServicioId { get; set; }
+        public Servicio Servicio { get; set; }
+
         public DateTime Fecha { get; set; }
+
+        [Required]
         public int Cantidad { get; set; }
     }
 }
