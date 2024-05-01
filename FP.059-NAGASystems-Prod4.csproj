@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>FP._059_NAGASystems_Prod3</RootNamespace>
+    <RootNamespace>FP._059_NAGASystems_Prod4</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

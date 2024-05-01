@@ -6,15 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
-using FP._059_NAGASystems_Prod3.Data;
+using FP._059_NAGASystems_Prod4.Data;
 
-namespace FP._059_NAGASystems_Prod3
+namespace FP._059_NAGASystems_Prod4
 {
     public class ReservaServicioController : Controller
     {
-        private readonly FP_059_NAGASystems_Prod3Context _context;
+        private readonly FP_059_NAGASystems_Prod4Context _context;
 
-        public ReservaServicioController(FP_059_NAGASystems_Prod3Context context)
+        public ReservaServicioController(FP_059_NAGASystems_Prod4Context context)
         {
             _context = context;
         }

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using FP._059_NAGASystems_Prod3.Data;
+using FP._059_NAGASystems_Prod4.Data;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<FP_059_NAGASystems_Prod3Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("FP_059_NAGASystems_Prod3Context") ?? throw new InvalidOperationException("Connection string 'FP_059_NAGASystems_Prod3Context' not found.")));
+builder.Services.AddDbContext<FP_059_NAGASystems_Prod4Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("FP_059_NAGASystems_Prod4Context") ?? throw new InvalidOperationException("Connection string 'FP_059_NAGASystems_Prod4Context' not found.")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

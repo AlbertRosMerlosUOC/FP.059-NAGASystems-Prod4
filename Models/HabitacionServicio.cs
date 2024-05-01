@@ -1,12 +1,12 @@
 ﻿using CapaModelo;
 using Microsoft.EntityFrameworkCore;
-using FP._059_NAGASystems_Prod3.Data;
+using FP._059_NAGASystems_Prod4.Data;
 
 public class HabitacionServicio
 {
-    private readonly FP_059_NAGASystems_Prod3Context _context;
+    private readonly FP_059_NAGASystems_Prod4Context _context;
 
-    public HabitacionServicio(FP_059_NAGASystems_Prod3Context context)
+    public HabitacionServicio(FP_059_NAGASystems_Prod4Context context)
     {
         _context = context;
     }

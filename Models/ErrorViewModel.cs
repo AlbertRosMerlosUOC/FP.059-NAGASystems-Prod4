@@ -1,4 +1,4 @@
-namespace FP._059_NAGASystems_Prod3.Models
+namespace FP._059_NAGASystems_Prod4.Models
 {
     public class ErrorViewModel
     {

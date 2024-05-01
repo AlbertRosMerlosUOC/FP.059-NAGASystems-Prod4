@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Xml.Serialization;
 using CapaModelo;
-using FP._059_NAGASystems_Prod3.Data;
+using FP._059_NAGASystems_Prod4.Data;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace FP._059_NAGASystems_Prod3.Controllers
+namespace FP._059_NAGASystems_Prod4.Controllers
 {
     public class ClienteController : Controller
     {
-        private readonly FP_059_NAGASystems_Prod3Context _context;
+        private readonly FP_059_NAGASystems_Prod4Context _context;
 
-        public ClienteController(FP_059_NAGASystems_Prod3Context context)
+        public ClienteController(FP_059_NAGASystems_Prod4Context context)
         {
             _context = context;
         }
