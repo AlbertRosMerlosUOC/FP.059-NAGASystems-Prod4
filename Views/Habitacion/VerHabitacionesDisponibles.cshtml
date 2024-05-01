@@ -1,0 +1,21 @@
+﻿@model List<CapaModelo.Habitacion>
+
+@{
+    ViewData["Title"] = "Ver Habitaciones Disponibles";
+}
+
+<h1>Verificar Disponibilidad de Habitaciones</h1>
+
+<form asp-action="VerHabitacionesDisponibles" method="post">
+    <div class="form-group">
+        <label for="fechaInicio">Fecha de Inicio:</label>
+        <input type="date" name="fechaInicioStr" class="form-control" id="fechaInicio" required>
+    </div>
+    <div class="form-group">
+        <label for="fechaFin">Fecha de Fin:</label>
+        <input type="date" name="fechaFinStr" class="form-control" id="fechaFin" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Buscar Disponibilidades</button>
+</form>
+
+

@@ -1,0 +1,34 @@
+﻿@model IEnumerable<CapaModelo.Habitacion>
+
+@{
+    ViewData["Title"] = "Habitaciones Disponibles";
+}
+
+<h1>Habitaciones Disponibles</h1>
+
+@if (Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Tipo de Habitación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var habitacion in Model)
+            {
+                <tr>
+                    <td>@habitacion.Numero</td>
+                    <td>@habitacion.TipoHabitacionId</td>
+                    <td>@((habitacion.Estado == 1) ? "Activa" : "Inactiva")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay habitaciones disponibles para las fechas seleccionadas.</p>
+}

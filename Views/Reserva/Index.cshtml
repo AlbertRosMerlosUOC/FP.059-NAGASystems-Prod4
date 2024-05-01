@@ -1,0 +1,82 @@
+﻿@model IEnumerable<CapaModelo.Reserva>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<p>
+    <a asp-controller="Habitacion" asp-action="VerHabitacionesDisponibles">Ver Disponibilidades</a>
+</p>
+<p>
+    <a asp-action="ListaPendientesCheckIns">Lista Pendientes de Check-In</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.DNI)</th>
+            <th>@Html.DisplayNameFor(model => model.HabitacionId)</th>
+            <th>@Html.DisplayNameFor(model => model.TipoAlojamientoId)</th>
+            <th>@Html.DisplayNameFor(model => model.TipoTemporadaId)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaInicio)</th>
+            <th>@Html.DisplayNameFor(model => model.FechaFin)</th>
+            <th>@Html.DisplayNameFor(model => model.Factura)</th>
+            <th>@Html.DisplayNameFor(model => model.CheckIn)</th>
+            <th>@Html.DisplayNameFor(model => model.Cancelado)</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DNI)</td>
+                <td>@Html.DisplayFor(modelItem => item.HabitacionId)</td>
+                <td>@Html.DisplayFor(modelItem => item.TipoAlojamientoId)</td>
+                <td>@Html.DisplayFor(modelItem => item.TipoTemporadaId)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaInicio)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaFin)</td>
+                <td>@Html.DisplayFor(modelItem => item.Factura)</td>
+                <td>@Html.DisplayFor(modelItem => item.CheckIn)</td>
+                <td>@Html.DisplayFor(modelItem => item.Cancelado)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    @if (item.Factura == 0)
+                    {
+                        @if (item.Cancelado == 0)
+                        {
+                            if (item.CheckIn == 0)
+                            {
+                                <form asp-action="CheckIn" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                    <button type="submit" class="btn btn-success btn-sm">Check-In</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-controller="Reserva" asp-action="CheckOut" asp-route-id="@item.Id" method="get" style="display:inline;">
+                                    <button type="submit" class="btn btn-warning btn-sm">Check-Out</button>
+                                </form>
+                            }
+                            <form asp-action="CancelReservation" asp-route-id="@item.Id" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm">Cancelar</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="badge bg-light text-dark">Cancelado</span>
+                        }
+                    }
+                    else
+                    {
+                        <span class="badge bg-success text-white">Facturado</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

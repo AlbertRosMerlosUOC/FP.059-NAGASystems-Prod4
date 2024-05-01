@@ -1,0 +1,69 @@
+﻿@model CapaModelo.Reserva
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Reserva</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-controller="Reserva" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="DNI" class="control-label">DNI</label>
+                <select asp-for="DNI" class="form-control" asp-items="@ViewBag.DNI"></select>
+                <span asp-validation-for="DNI" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="HabitacionId" class="control-label">Número de Habitación</label>
+                <select asp-for="HabitacionId" class="form-control" asp-items="ViewBag.HabitacionId"></select>
+                <span asp-validation-for="HabitacionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoAlojamientoId">Tipo de Alojamiento</label>
+                <select asp-for="TipoAlojamientoId" class="form-control" asp-items="@ViewBag.TipoAlojamientoId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoTemporadaId">Tipo de Temporada</label>
+                <select asp-for="TipoTemporadaId" class="form-control" asp-items="@ViewBag.TipoTemporadaId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label">Fecha de Inicio</label>
+                <input asp-for="FechaInicio" class="form-control" type="date" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaFin" class="control-label">Fecha de Fin</label>
+                <input asp-for="FechaFin" class="form-control" type="date" />
+                <span asp-validation-for="FechaFin" class="text-danger"></span>
+            </div>
+            @*<div class="form-group">
+            <label asp-for="Referido" class="control-label">Referido</label>
+            <select asp-for="Referido" class="form-control" asp-items="@ViewBag.Referido"></select>
+            <span asp-validation-for="Referido" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="OfertaId">Oferta</label>
+                <select asp-for="OfertaId" class="form-control" asp-items="@ViewBag.OfertaId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+    <a asp-action="Delete" asp-route-id="@Model.Id">Eliminar</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

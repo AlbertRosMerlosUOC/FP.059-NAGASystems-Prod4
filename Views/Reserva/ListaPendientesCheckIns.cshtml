@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CapaModelo.Reserva>
+
+<h2>Reservas Vencidas Pendientes de Check-In</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>DNI</th>
+            <th>Habitación</th>
+            <th>Fecha Inicio</th>
+            <th>Fecha Fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.DNI)</td>
+                <td>@Html.DisplayFor(modelItem => item.Habitacion)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaInicio)</td>
+                <td>@Html.DisplayFor(modelItem => item.FechaFin)</td>
+                <td>
+                    <a asp-action="CheckIn" asp-route-id="@item.Id" class="btn btn-primary">Check-In</a>
+                    <form asp-action="Cancel" asp-route-id="@item.Id" method="post" style="display:inline;">
+                        <button type="submit" class="btn btn-danger">Anular</button>
+                    </form>
+                    <a asp-action="NotifyCustomer" asp-route-id="@item.Id" class="btn btn-info">Avisar al Cliente</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

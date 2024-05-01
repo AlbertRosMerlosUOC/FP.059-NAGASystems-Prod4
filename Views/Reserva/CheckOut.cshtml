@@ -1,0 +1,16 @@
+﻿@model CapaModelo.Reserva
+
+<h2>Confirmar Check-Out</h2>
+
+<div>
+    <p>Precio de la habitación: @ViewBag.PrecioHabitacion €</p>
+    <p>Precio del tipo de alojamiento: @ViewBag.PrecioTipoAlojamiento €</p>
+    <p>Coeficiente de la temporada: @ViewBag.Coeficiente %</p>
+    <p>Días de estancia: @ViewBag.TotalDias</p>
+    <p><strong>Total estimado: @ViewBag.TotalCosto €</strong></p>
+</div>
+
+<!-- Formulario de confirmación para el check-out -->
+<form asp-action="ConfirmCheckOut" asp-route-id="@Model.Id" method="post">
+    <button type="submit" class="btn btn-warning">Confirmar Check-Out</button>
+</form>
