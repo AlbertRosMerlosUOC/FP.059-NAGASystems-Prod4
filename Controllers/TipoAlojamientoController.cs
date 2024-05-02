@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
+using System.Xml.Serialization;
 
 namespace FP._059_NAGASystems_Prod4
 {
@@ -152,6 +153,69 @@ namespace FP._059_NAGASystems_Prod4
         private bool TipoAlojamientoExists(int id)
         {
             return _context.TipoAlojamiento.Any(e => e.Id == id);
+        }
+
+        // Método GET para mostrar la vista de carga
+        [HttpGet]
+        public IActionResult ImportarXmlTipoAlojamiento()
+        {
+            return View();
+        }
+
+        // Método POST para procesar la carga del archivo XML
+        [HttpPost]
+        public async Task<IActionResult> ImportarXmlTipoAlojamiento(IFormFile archivoXml)
+        {
+            if (archivoXml == null || archivoXml.Length == 0)
+            {
+                ModelState.AddModelError("", "Debe proporcionar un archivo XML.");
+                return View();
+            }
+
+            XmlSerializer serializer = new XmlSerializer(typeof(List<TipoAlojamiento>), new XmlRootAttribute("TiposAlojamiento"));
+            List<TipoAlojamiento> tiposAlojamiento;
+
+            try
+            {
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    tiposAlojamiento = (List<TipoAlojamiento>)serializer.Deserialize(stream);
+                }
+
+                foreach (var tipo in tiposAlojamiento)
+                {
+                    var tipoExistente = await _context.TipoAlojamiento.FindAsync(tipo.Id);
+                    if (tipoExistente != null)
+                    {
+                        _context.Entry(tipoExistente).CurrentValues.SetValues(tipo);
+                    }
+                    else
+                    {
+                        _context.TipoAlojamiento.Add(tipo);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index)); // Redirecciona a la lista de tipos de Alojamiento
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error al importar el archivo XML: " + ex.Message);
+                return View("Error"); // Vista de manejo de errores
+            }
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlTiposAlojamiento()
+        {
+            var tiposAlojamiento = await _context.TipoAlojamiento.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<TipoAlojamiento>), new XmlRootAttribute("TiposAlojamiento"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, tiposAlojamiento);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "TiposAlojamiento.xml");
+            }
         }
     }
 }

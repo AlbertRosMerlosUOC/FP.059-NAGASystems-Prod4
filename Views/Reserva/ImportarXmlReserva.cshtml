@@ -1,0 +1,15 @@
+﻿@model CapaModelo.Reserva
+
+@{
+    ViewData["Title"] = "Importar XML de Reservas";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="ImportarXmlReserva" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="archivoXml">Archivo XML:</label>
+        <input type="file" class="form-control" name="archivoXml" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar y Procesar</button>
+</form>

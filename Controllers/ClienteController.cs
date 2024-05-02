@@ -218,6 +218,19 @@ namespace FP._059_NAGASystems_Prod4.Controllers
 
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlClientes()
+        {
+            var clientes = await _context.Cliente.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Cliente>), new XmlRootAttribute("Clientes"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, clientes);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "Clientes.xml");
+            }
+        }
     }
 
 }

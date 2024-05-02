@@ -7,16 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
+using System.Xml.Serialization;
+using Microsoft.Extensions.Logging;
 
 namespace FP._059_NAGASystems_Prod4
 {
     public class ReservaController : Controller
     {
         private readonly FP_059_NAGASystems_Prod4Context _context;
+        private readonly ILogger<ReservaController> _logger;
 
-        public ReservaController(FP_059_NAGASystems_Prod4Context context)
+        // Constructor que utiliza el contexto y logger
+        public ReservaController(FP_059_NAGASystems_Prod4Context context, ILogger<ReservaController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: Reserva
@@ -416,6 +421,111 @@ namespace FP._059_NAGASystems_Prod4
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult ImportarXmlReserva()
+        {
+            // Este es para la solicitud GET para mostrar el formulario
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportarXmlReserva(IFormFile archivoXml)
+        {
+            if (archivoXml == null || archivoXml.Length == 0)
+            {
+                _logger.LogWarning("Archivo XML no proporcionado o está vacío.");
+                ModelState.AddModelError("", "Archivo XML no proporcionado o está vacío.");
+                return View();
+            }
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Reserva>), new XmlRootAttribute("Reservas"));
+                List<Reserva> reservasImportadas;
+
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    reservasImportadas = (List<Reserva>)serializer.Deserialize(stream);
+                }
+
+                _logger.LogInformation($"Deserialización completada. Procesando {reservasImportadas.Count} reservas.");
+
+                foreach (var reserva in reservasImportadas)
+                {
+                    // Asegura que todos los componentes de la reserva existen antes de añadirlo a la base de datos
+                    if (!await ValidarDependencias(reserva))
+                    {
+                        _logger.LogWarning($"Dependencias faltantes para la reserva con DNI: {reserva.DNI}");
+                        continue;  // Saltar esta reserva si alguna dependencia no existe
+                    }
+
+                    _context.Add(reserva);
+                    _logger.LogInformation($"Añadiendo nueva reserva con DNI: {reserva.DNI}");
+                }
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al importar reservas desde XML");
+                ModelState.AddModelError("", "Error al procesar el archivo XML: " + ex.Message);
+                return View();
+            }
+        }
+
+        private async Task<bool> ValidarDependencias(Reserva reserva)
+        {
+            // Comprueba la existencia de Cliente
+            bool clienteExiste = await _context.Cliente.AnyAsync(c => c.DNI == reserva.DNI);
+            if (!clienteExiste)
+            {
+                _logger.LogWarning($"Cliente con DNI: {reserva.DNI} no existe.");
+            }
+
+            // Comprueba la existencia de Habitacion
+            bool habitacionExiste = await _context.Habitacion.AnyAsync(h => h.Numero == reserva.HabitacionId);
+            if (!habitacionExiste)
+            {
+                _logger.LogWarning($"Habitación con ID: {reserva.HabitacionId} no existe.");
+            }
+
+            // Comprueba la existencia de TipoAlojamiento
+            bool tipoAlojamientoExiste = await _context.TipoAlojamiento.AnyAsync(t => t.Id == reserva.TipoAlojamientoId);
+            if (!tipoAlojamientoExiste)
+            {
+                _logger.LogWarning($"Tipo de Alojamiento con ID: {reserva.TipoAlojamientoId} no existe.");
+            }
+
+            // Comprueba la existencia de TipoTemporada
+            bool tipoTemporadaExiste = await _context.TipoTemporada.AnyAsync(t => t.Id == reserva.TipoTemporadaId);
+            if (!tipoTemporadaExiste)
+            {
+                _logger.LogWarning($"Tipo de Temporada con ID: {reserva.TipoTemporadaId} no existe.");
+            }
+
+            // Comprueba la existencia de Oferta
+            bool ofertaExiste = await _context.Oferta.AnyAsync(o => o.Id == reserva.OfertaId);
+            if (!ofertaExiste)
+            {
+                _logger.LogWarning($"Oferta con ID: {reserva.OfertaId} no existe.");
+            }
+
+            return clienteExiste && habitacionExiste && tipoAlojamientoExiste && tipoTemporadaExiste && ofertaExiste;
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlReservas()
+        {
+            var reservas = await _context.Reserva.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Reserva>), new XmlRootAttribute("Reservas"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, reservas);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "Reservas.xml");
+            }
         }
     }
 }

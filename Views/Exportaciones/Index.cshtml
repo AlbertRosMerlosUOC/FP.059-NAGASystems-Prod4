@@ -1,0 +1,16 @@
+﻿@{
+    ViewData["Title"] = "Exportar Datos a XML";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<ul>
+    <li><a asp-controller="Cliente" asp-action="ExportarXmlClientes">Exportar Clientes</a></li>
+    <li><a asp-controller="Habitacion" asp-action="ExportarXmlHabitaciones">Exportar Habitaciones</a></li>
+    <li><a asp-controller="Reserva" asp-action="ExportarXmlReservas">Exportar Reservas</a></li>
+    <li><a asp-controller="Servicio" asp-action="ExportarXmlServicios">Exportar Servicios</a></li>
+    <li><a asp-controller="Oferta" asp-action="ExportarXmlOfertas">Exportar Ofertas</a></li>
+    <li><a asp-controller="TipoHabitacion" asp-action="ExportarXmlTiposHabitacion">Exportar Tipos de Habitación</a></li>
+    <li><a asp-controller="TipoAlojamiento" asp-action="ExportarXmlTiposAlojamiento">Exportar Tipos de Alojamiento</a></li>
+    <li><a asp-controller="TipoTemporada" asp-action="ExportarXmlTiposTemporada">Exportar Tipos de Temporada</a></li>
+</ul>

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
 using static CapaModelo.Habitacion;
+using System.Xml.Serialization;
 
 namespace FP._059_NAGASystems_Prod4.Controllers
 {
@@ -199,6 +200,61 @@ namespace FP._059_NAGASystems_Prod4.Controllers
         private bool HabitacionExists(int id)
         {
             return _context.Habitacion.Any(e => e.Numero == id);
+        }
+        public IActionResult ImportarXmlHabitaciones()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportarXmlHabitaciones(IFormFile archivoXml)
+        {
+            if (archivoXml != null && archivoXml.Length > 0)
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Habitacion>), new XmlRootAttribute("Habitaciones"));
+                List<Habitacion> habitacionesImportadas;
+
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    habitacionesImportadas = (List<Habitacion>)serializer.Deserialize(stream);
+                }
+
+                foreach (var habitacion in habitacionesImportadas)
+                {
+                    var habitacionExistente = await _context.Habitacion.FindAsync(habitacion.Numero);
+                    if (habitacionExistente != null)
+                    {
+                        _context.Entry(habitacionExistente).CurrentValues.SetValues(habitacion); // Actualiza la habitación existente
+                    }
+                    else
+                    {
+                        _context.Add(habitacion); // Agrega una nueva habitación
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                // Opcional: Mensaje de éxito o redirección
+                TempData["Mensaje"] = "Datos de habitaciones importados correctamente.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            ModelState.AddModelError("", "Debe seleccionar un archivo XML válido.");
+            return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlHabitaciones()
+        {
+            var habitaciones = await _context.Habitacion.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Habitacion>), new XmlRootAttribute("Habitaciones"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, habitaciones);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "Habitaciones.xml");
+            }
         }
     }
 }
