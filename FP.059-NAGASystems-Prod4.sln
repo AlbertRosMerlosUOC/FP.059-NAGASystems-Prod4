@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FP.059-NAGASystems-Prod3", "FP.059-NAGASystems-Prod3.csproj", "{BBE078CA-276C-43AB-9073-E815E8FF90F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FP.059-NAGASystems-Prod4", "FP.059-NAGASystems-Prod4.csproj", "{CEA880FF-8229-4DF7-9B5D-3A776F43D257}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BBE078CA-276C-43AB-9073-E815E8FF90F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BBE078CA-276C-43AB-9073-E815E8FF90F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BBE078CA-276C-43AB-9073-E815E8FF90F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BBE078CA-276C-43AB-9073-E815E8FF90F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEA880FF-8229-4DF7-9B5D-3A776F43D257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEA880FF-8229-4DF7-9B5D-3A776F43D257}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEA880FF-8229-4DF7-9B5D-3A776F43D257}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEA880FF-8229-4DF7-9B5D-3A776F43D257}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EF2A2F27-A417-4A4A-9722-8683141962CE}
+		SolutionGuid = {03A6836C-86E4-4946-9BFB-B14BD3F2D940}
 	EndGlobalSection
 EndGlobal

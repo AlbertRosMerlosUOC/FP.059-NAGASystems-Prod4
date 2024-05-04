@@ -13,9 +13,16 @@ root = ET.Element("hotelSol")
 
 # Definir las tablas y sus consultas SQL
 tablas = {
-    "habitaciones": "SELECT numero, estado, tipohabitacionid FROM habitacion",
     "clientes": "SELECT dni, nombre, apellido1, apellido2, telefono, direccion, email, vip, estado FROM cliente",
-    "reservas": "SELECT id, dni, habitacionid, tipoalojamientoid, tipotemporadaid, fechainicio, fechafin, factura, referido, checkin, cancelado, ofertaid FROM reserva"
+    "disponibilidades": "SELECT id, habitacion, fecha FROM disponibilidad",
+    "habitaciones": "SELECT numero, estado, tipohabitacionid FROM habitacion",
+    "ofertas": "SELECT id, descripcion, coeficiente FROM oferta",
+    "reservas": "SELECT id, dni, habitacionId, tipoalojamientoId, tipotemporadaId, fechainicio, fechafin, factura, referido, checkin, cancelado, ofertaid FROM reserva",
+    "reservasServicios": "SELECT id, reserva, servicio, fecha, cantidad FROM reservaServicio",
+    "servicios": "SELECT id, descripcion, precio FROM servicio",
+    "tiposAlojamiento": "SELECT id, descripcion, precio FROM tipoAlojamiento",
+    "tiposHabitacion": "SELECT id, descripcion, precio FROM tipoHabitacion",
+    "tiposTemporada": "SELECT id, descripcion, coeficiente FROM tipoTemporada"
 }
 
 # Iterar sobre las tablas y exportar los datos al XML

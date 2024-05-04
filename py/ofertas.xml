@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<ofertas>
+    <oferta>
+        <id>1</id>
+        <descripcion>Sin oferta</descripcion>
+        <coeficiente>100.0</coeficiente>
+    </oferta>
+    <oferta>
+        <id>4</id>
+        <descripcion>Oferta Fin de semana </descripcion>
+        <coeficiente>90.0</coeficiente>
+    </oferta>
+    <oferta>
+        <id>6</id>
+        <descripcion>Oferta de verano</descripcion>
+        <coeficiente>85.0</coeficiente>
+    </oferta>
+    <oferta>
+        <id>7</id>
+        <descripcion>Descuento de invierno</descripcion>
+        <coeficiente>90.0</coeficiente>
+    </oferta>
+    <oferta>
+        <id>8</id>
+        <descripcion>Oferta especial para festivos</descripcion>
+        <coeficiente>75.0</coeficiente>
+    </oferta>
+</ofertas>

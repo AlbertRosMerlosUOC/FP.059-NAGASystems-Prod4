@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<tiposAlojamiento>
+    <tipoAlojamiento>
+        <id>1</id>
+        <descripcion>Pensión Completa</descripcion>
+        <precio>15.0</precio>
+    </tipoAlojamiento>
+    <tipoAlojamiento>
+        <id>7</id>
+        <descripcion>Media Pensión</descripcion>
+        <precio>10.0</precio>
+    </tipoAlojamiento>
+    <tipoAlojamiento>
+        <id>10</id>
+        <descripcion>Sin Desayuno</descripcion>
+        <precio>0.0</precio>
+    </tipoAlojamiento>
+</tiposAlojamiento>
