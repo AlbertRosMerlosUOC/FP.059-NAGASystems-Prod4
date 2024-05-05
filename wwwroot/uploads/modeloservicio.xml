@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Servicios>
+    <Servicio>
+        <Descripcion>Acceso a piscina</Descripcion>
+        <Precio>15.00</Precio>
+    </Servicio>
+    <Servicio>
+        <Descripcion>Servicio de habitación</Descripcion>
+        <Precio>20.00</Precio>
+    </Servicio>
+    <Servicio>
+        <Descripcion>Acceso al gimnasio</Descripcion>
+        <Precio>10.00</Precio>
+    </Servicio>
+    <Servicio>
+        <Descripcion>Spa</Descripcion>
+        <Precio>12.00</Precio>
+    </Servicio>
+</Servicios>

@@ -1,0 +1,18 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model CapaModelo.Habitacion
+
+@{
+    ViewData["Title"] = "Importar XML de Habitaciones";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="ImportarXmlHabitaciones" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="archivoXml">Archivo XML:</label>
+        <input type="file" class="form-control" name="archivoXml" required />
+    </div>
+    <button type="submit" class="btn btn-primary">Cargar y Procesar</button>
+</form>

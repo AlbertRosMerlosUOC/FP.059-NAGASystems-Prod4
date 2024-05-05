@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
+using System.Xml.Serialization;
 
 namespace FP._059_NAGASystems_Prod4
 {
@@ -152,6 +153,74 @@ namespace FP._059_NAGASystems_Prod4
         private bool ServicioExists(int id)
         {
             return _context.Servicio.Any(e => e.Id == id);
+        }
+        // Método GET para mostrar la vista de carga
+        [HttpGet]
+        public IActionResult ImportarXmlServicio()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportarXmlServicio(IFormFile archivoXml)
+        {
+            if (archivoXml == null || archivoXml.Length == 0)
+            {
+                ModelState.AddModelError("", "Debe seleccionar un archivo XML para cargar.");
+                return View();
+            }
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Servicio>), new XmlRootAttribute("Servicios"));
+                List<Servicio> serviciosImportados;
+
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    serviciosImportados = (List<Servicio>)serializer.Deserialize(stream);
+                }
+
+                foreach (var servicio in serviciosImportados)
+                {
+                    var servicioExistente = await _context.Servicio.FindAsync(servicio.Id);
+                    if (servicioExistente != null)
+                    {
+                        _context.Entry(servicioExistente).CurrentValues.SetValues(servicio);
+                    }
+                    else
+                    {
+                        _context.Add(servicio);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Servicios importados correctamente.";
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError("", "Error al procesar el archivo XML: " + ex.Message);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error general al importar servicios: " + ex.Message);
+                return View();
+            }
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlServicios()
+        {
+            var servicios = await _context.Servicio.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Servicio>), new XmlRootAttribute("Servicios"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, servicios);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "Servicios.xml");
+            }
         }
     }
 }

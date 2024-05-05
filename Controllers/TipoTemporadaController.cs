@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
+using System.Xml.Serialization;
+
 
 namespace FP._059_NAGASystems_Prod4
 {
@@ -152,6 +154,74 @@ namespace FP._059_NAGASystems_Prod4
         private bool TipoTemporadaExists(int id)
         {
             return _context.TipoTemporada.Any(e => e.Id == id);
+        }
+        public IActionResult ImportarXmlTemporada()
+        {
+            // Este es para la solicitud GET para mostrar el formulario
+            return View();
+        }
+        // Método POST para procesar la carga de XML
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportarXmlTemporada(IFormFile archivoXml)
+        {
+            if (archivoXml == null || archivoXml.Length == 0)
+            {
+                ModelState.AddModelError("", "Debe seleccionar un archivo XML para cargar.");
+                return View();
+            }
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<TipoTemporada>), new XmlRootAttribute("Temporadas"));
+                List<TipoTemporada> temporadasImportadas;
+
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    temporadasImportadas = (List<TipoTemporada>)serializer.Deserialize(stream);
+                }
+
+                foreach (var temporada in temporadasImportadas)
+                {
+                    var temporadaExistente = await _context.Oferta.FindAsync(temporada.Id);
+                    if (temporadaExistente != null)
+                    {
+                        _context.Entry(temporadaExistente).CurrentValues.SetValues(temporada);
+                    }
+                    else
+                    {
+                        _context.Add(temporada);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Temporadas importadas correctamente.";
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError("", "Error al procesar el archivo XML: " + ex.Message);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error general al importar Temporadas: " + ex.Message);
+                return View();
+            }
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlTiposTemporada()
+        {
+            var tiposTemporada = await _context.TipoTemporada.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<TipoTemporada>), new XmlRootAttribute("TiposTemporada"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, tiposTemporada);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "TiposTemporada.xml");
+            }
         }
     }
 }

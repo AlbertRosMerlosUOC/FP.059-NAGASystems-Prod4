@@ -6,12 +6,21 @@
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
 
-@if (Model.ShowRequestId)
+@if (Model != null && !string.IsNullOrEmpty(Model.RequestId))
 {
     <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <strong>Request ID:</strong> @Model.RequestId
     </p>
 }
+
+@if (Model?.ShowRequestId == true)
+{
+    <p>
+        Please include the above Request ID in any queries you make.
+    </p>
+}
+
+<a href="/">Home</a>
 
 <h3>Development Mode</h3>
 <p>

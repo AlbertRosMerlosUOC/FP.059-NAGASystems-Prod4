@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Clientes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Cliente>
+    <DNI>1</DNI>
+    <Nombre>prueba</Nombre>
+    <Apellido1>Prueba1</Apellido1>
+    <Apellido2>Prueba2</Apellido2>
+    <Telefono>930492892349028</Telefono>
+    <Direccion>prueba</Direccion>
+    <Email>prueba@prueba.com</Email>
+    <VIP>0</VIP>
+    <Estado>1</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>12345678Y</DNI>
+    <Nombre>Cliente2</Nombre>
+    <Apellido1>Cliente2Apellido1</Apellido1>
+    <Apellido2>Cliente2Apellido2</Apellido2>
+    <Telefono>911111112</Telefono>
+    <Direccion>Avenida Falsa 123</Direccion>
+    <Email>cliente2@ejemplo.com</Email>
+    <VIP>0</VIP>
+    <Estado>0</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>12345678Z</DNI>
+    <Nombre>Cliente1</Nombre>
+    <Apellido1>Cliente1Apellido1</Apellido1>
+    <Apellido2>Cliente1Apellido2</Apellido2>
+    <Telefono>911111111</Telefono>
+    <Direccion>Calle Falsa 123</Direccion>
+    <Email>cliente1@ejemplo.com</Email>
+    <VIP>0</VIP>
+    <Estado>0</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>1239870213A</DNI>
+    <Nombre>Alejandro</Nombre>
+    <Apellido1>wedaasd</Apellido1>
+    <Apellido2>Expósito</Apellido2>
+    <Telefono>686265853</Telefono>
+    <Direccion>C/Delanada 932</Direccion>
+    <Email>alejandro_ex1@hotmail.com</Email>
+    <VIP>1</VIP>
+    <Estado>1</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>2</DNI>
+    <Nombre>pruebados</Nombre>
+    <Apellido1>pruebados1</Apellido1>
+    <Apellido2>pruebados2</Apellido2>
+    <Telefono>222</Telefono>
+    <Direccion>1</Direccion>
+    <Email>pruebados@pruebados.com</Email>
+    <VIP>0</VIP>
+    <Estado>1</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>47331413N</DNI>
+    <Nombre>Gerard</Nombre>
+    <Apellido1>Almirall</Apellido1>
+    <Apellido2>Merlos</Apellido2>
+    <Telefono>66929130921930</Telefono>
+    <Direccion>falsa</Direccion>
+    <Email>falso@falso.false</Email>
+    <VIP>0</VIP>
+    <Estado>1</Estado>
+  </Cliente>
+  <Cliente>
+    <DNI>68194501A</DNI>
+    <Nombre>Marc</Nombre>
+    <Apellido1>Pi</Apellido1>
+    <Apellido2>Castellnou</Apellido2>
+    <Telefono>698493029</Telefono>
+    <Direccion>C/Sanfrancisa n22</Direccion>
+    <Email>marcpi@gmail.fake</Email>
+    <VIP>1</VIP>
+    <Estado>1</Estado>
+  </Cliente>
+</Clientes>

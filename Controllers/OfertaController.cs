@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CapaModelo;
 using FP._059_NAGASystems_Prod4.Data;
+using System.Xml.Serialization;
+
 
 namespace FP._059_NAGASystems_Prod4
 {
@@ -152,6 +154,75 @@ namespace FP._059_NAGASystems_Prod4
         private bool OfertaExists(int id)
         {
             return _context.Oferta.Any(e => e.Id == id);
+        }
+        public IActionResult ImportarXmlOferta()
+        {
+            // Este es para la solicitud GET para mostrar el formulario
+            return View();
+        }
+
+        // Método POST para procesar la carga de XML
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ImportarXml(IFormFile archivoXml)
+        {
+            if (archivoXml == null || archivoXml.Length == 0)
+            {
+                ModelState.AddModelError("", "Debe seleccionar un archivo XML para cargar.");
+                return View();
+            }
+
+            try
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Oferta>), new XmlRootAttribute("Ofertas"));
+                List<Oferta> ofertasImportadas;
+
+                using (var stream = archivoXml.OpenReadStream())
+                {
+                    ofertasImportadas = (List<Oferta>)serializer.Deserialize(stream);
+                }
+
+                foreach (var oferta in ofertasImportadas)
+                {
+                    var ofertaExistente = await _context.Oferta.FindAsync(oferta.Id);
+                    if (ofertaExistente != null)
+                    {
+                        _context.Entry(ofertaExistente).CurrentValues.SetValues(oferta);
+                    }
+                    else
+                    {
+                        _context.Add(oferta);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Ofertas importadas correctamente.";
+            }
+            catch (InvalidOperationException ex)
+            {
+                ModelState.AddModelError("", "Error al procesar el archivo XML: " + ex.Message);
+                return View();
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", "Error general al importar ofertas: " + ex.Message);
+                return View();
+            }
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public async Task<IActionResult> ExportarXmlOfertas()
+        {
+            var ofertas = await _context.Oferta.ToListAsync();
+            XmlSerializer serializer = new XmlSerializer(typeof(List<Oferta>), new XmlRootAttribute("Ofertas"));
+
+            using (var stream = new MemoryStream())
+            {
+                serializer.Serialize(stream, ofertas);
+                stream.Position = 0;
+                return File(stream.ToArray(), "application/xml", "Ofertas.xml");
+            }
         }
     }
 }
