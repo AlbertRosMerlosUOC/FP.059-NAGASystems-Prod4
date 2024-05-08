@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = "_Layout"; // Asumiendo que estás utilizando un layout común.
+}
+
+<h1>Exportar XML</h1>
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Result))
+{
+    <div class="alert alert-success">
+        <strong>Éxito!</strong> @ViewBag.Result
+    </div>
+}
+
+@if (!string.IsNullOrWhiteSpace(ViewBag.Error))
+{
+    <div class="alert alert-danger">
+        <strong>Error:</strong> @ViewBag.Error
+    </div>
+}
+else if (string.IsNullOrWhiteSpace(ViewBag.Result))
+{
+    <div class="alert alert-info">
+        El proceso se completó, pero no hay salida para mostrar.
+    </div>
+}
+
+<a href="@Url.Action("Index", "Exportaciones")" class="btn btn-primary">Volver al Inicio</a>

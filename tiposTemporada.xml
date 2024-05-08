@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<tiposTemporada>
+    <tipoTemporada>
+        <id>1</id>
+        <descripcion>Temporada Baja</descripcion>
+        <coeficiente>85.0</coeficiente>
+    </tipoTemporada>
+    <tipoTemporada>
+        <id>2</id>
+        <descripcion>Temporada Media</descripcion>
+        <coeficiente>100.0</coeficiente>
+    </tipoTemporada>
+    <tipoTemporada>
+        <id>3</id>
+        <descripcion>Temporada Alta</descripcion>
+        <coeficiente>125.0</coeficiente>
+    </tipoTemporada>
+    <tipoTemporada>
+        <id>6</id>
+        <descripcion>Fin de semana</descripcion>
+        <coeficiente>115.0</coeficiente>
+    </tipoTemporada>
+    <tipoTemporada>
+        <id>7</id>
+        <descripcion>Festival</descripcion>
+        <coeficiente>150.0</coeficiente>
+    </tipoTemporada>
+</tiposTemporada>

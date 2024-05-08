@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<tiposHabitacion>
+    <tipoHabitacion>
+        <id>1</id>
+        <descripcion>Individual</descripcion>
+        <precio>60.0</precio>
+    </tipoHabitacion>
+    <tipoHabitacion>
+        <id>2</id>
+        <descripcion>Doble</descripcion>
+        <precio>90.0</precio>
+    </tipoHabitacion>
+    <tipoHabitacion>
+        <id>3</id>
+        <descripcion>Suite Lujo</descripcion>
+        <precio>120.0</precio>
+    </tipoHabitacion>
+    <tipoHabitacion>
+        <id>8</id>
+        <descripcion>albergue</descripcion>
+        <precio>10.0</precio>
+    </tipoHabitacion>
+    <tipoHabitacion>
+        <id>9</id>
+        <descripcion>Albergue con literas</descripcion>
+        <precio>10.0</precio>
+    </tipoHabitacion>
+    <tipoHabitacion>
+        <id>10</id>
+        <descripcion>Nupcial</descripcion>
+        <precio>300.0</precio>
+    </tipoHabitacion>
+</tiposHabitacion>

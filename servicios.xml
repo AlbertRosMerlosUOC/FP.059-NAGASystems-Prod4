@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<servicios>
+    <servicio>
+        <id>1</id>
+        <descripcion>Lavandería</descripcion>
+        <precio>10.0</precio>
+    </servicio>
+    <servicio>
+        <id>2</id>
+        <descripcion>wifi</descripcion>
+        <precio>5.0</precio>
+    </servicio>
+    <servicio>
+        <id>3</id>
+        <descripcion>Acceso a piscina</descripcion>
+        <precio>15.0</precio>
+    </servicio>
+    <servicio>
+        <id>4</id>
+        <descripcion>Servicio de habitación</descripcion>
+        <precio>20.0</precio>
+    </servicio>
+    <servicio>
+        <id>5</id>
+        <descripcion>Acceso al gimnasio</descripcion>
+        <precio>10.0</precio>
+    </servicio>
+    <servicio>
+        <id>6</id>
+        <descripcion>Spa</descripcion>
+        <precio>12.0</precio>
+    </servicio>
+</servicios>

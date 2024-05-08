@@ -1,0 +1,101 @@
+<?xml version="1.0" ?>
+<reservas>
+    <reserva>
+        <id>5</id>
+        <dni>47331413N</dni>
+        <habitacionid>19</habitacionid>
+        <tipoalojamientoid>7</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-04-24 00:00:00</fechainicio>
+        <fechafin>2024-04-28 00:00:00</fechafin>
+        <factura>442.00</factura>
+        <referido>0</referido>
+        <checkin>1</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>1</ofertaid>
+    </reserva>
+    <reserva>
+        <id>21</id>
+        <dni>68194501A</dni>
+        <habitacionid>18</habitacionid>
+        <tipoalojamientoid>10</tipoalojamientoid>
+        <tipotemporadaid>2</tipotemporadaid>
+        <fechainicio>2024-05-16 00:00:00</fechainicio>
+        <fechafin>2024-05-25 00:00:00</fechafin>
+        <factura>0.00</factura>
+        <referido>None</referido>
+        <checkin>0</checkin>
+        <cancelado>1</cancelado>
+        <ofertaid>4</ofertaid>
+    </reserva>
+    <reserva>
+        <id>22</id>
+        <dni>1239870213A</dni>
+        <habitacionid>25</habitacionid>
+        <tipoalojamientoid>1</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-05-01 00:00:00</fechainicio>
+        <fechafin>2024-05-03 00:00:00</fechafin>
+        <factura>178.50</factura>
+        <referido>None</referido>
+        <checkin>1</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>4</ofertaid>
+    </reserva>
+    <reserva>
+        <id>23</id>
+        <dni>1</dni>
+        <habitacionid>11</habitacionid>
+        <tipoalojamientoid>1</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-07-01 00:00:00</fechainicio>
+        <fechafin>2024-07-10 00:00:00</fechafin>
+        <factura>0.00</factura>
+        <referido>None</referido>
+        <checkin>0</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>4</ofertaid>
+    </reserva>
+    <reserva>
+        <id>24</id>
+        <dni>2</dni>
+        <habitacionid>12</habitacionid>
+        <tipoalojamientoid>7</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-08-15 00:00:00</fechainicio>
+        <fechafin>2024-08-20 00:00:00</fechafin>
+        <factura>0.00</factura>
+        <referido>None</referido>
+        <checkin>0</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>1</ofertaid>
+    </reserva>
+    <reserva>
+        <id>25</id>
+        <dni>1</dni>
+        <habitacionid>6</habitacionid>
+        <tipoalojamientoid>1</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-05-01 00:00:00</fechainicio>
+        <fechafin>2024-05-03 00:00:00</fechafin>
+        <factura>203.50</factura>
+        <referido>None</referido>
+        <checkin>1</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>1</ofertaid>
+    </reserva>
+    <reserva>
+        <id>26</id>
+        <dni>68194501A</dni>
+        <habitacionid>1</habitacionid>
+        <tipoalojamientoid>1</tipoalojamientoid>
+        <tipotemporadaid>1</tipotemporadaid>
+        <fechainicio>2024-05-03 00:00:00</fechainicio>
+        <fechafin>2024-05-04 00:00:00</fechafin>
+        <factura>0.00</factura>
+        <referido>None</referido>
+        <checkin>1</checkin>
+        <cancelado>0</cancelado>
+        <ofertaid>1</ofertaid>
+    </reserva>
+</reservas>

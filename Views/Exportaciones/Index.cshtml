@@ -6,10 +6,12 @@
 }
 
 <h2>@ViewData["Title"]</h2>
+
 <p>
     <a asp-action="EnviarDatosOdoo">Enviar Datos a Odoo</a>
 </p>
-// Todo esto, aunque funciona, no se puede usar para enviar a Odoo porque no se generan los xml con el formato correcto. En lugar de usar estas exportaciones se tendría que llamar a los métodos de exportación que ALbert ha hecho en python
+// Todo esto, aunque funciona, no se puede usar para enviar a Odoo porque no se generan los xml con el formato correcto. En lugar de usar estas exportaciones se tendría que llamar a los métodos de exportación que Albert ha hecho en python
+
 <ul>
     <li><a asp-controller="Cliente" asp-action="ExportarXmlClientes">Exportar Clientes</a></li>
     <li><a asp-controller="Habitacion" asp-action="ExportarXmlHabitaciones">Exportar Habitaciones</a></li>
@@ -20,3 +22,19 @@
     <li><a asp-controller="TipoAlojamiento" asp-action="ExportarXmlTiposAlojamiento">Exportar Tipos de Alojamiento</a></li>
     <li><a asp-controller="TipoTemporada" asp-action="ExportarXmlTiposTemporada">Exportar Tipos de Temporada</a></li>
 </ul>
+
+<h1>Generar XML </h1>
+
+@if (ViewBag.Result != null)
+{
+    <p>Resultado: @ViewBag.Result</p>
+}
+
+@if (ViewBag.Error != null)
+{
+    <p>Error: @ViewBag.Error</p>
+}
+
+<a asp-action="ExportarXML" class="btn btn-primary">Generar XML por Separado</a>
+<a asp-action="ExportarXMLTodo" class="btn btn-primary">Generar XML Juntos</a>
+
