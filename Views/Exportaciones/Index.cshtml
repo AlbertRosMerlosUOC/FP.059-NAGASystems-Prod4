@@ -10,18 +10,7 @@
 <p>
     <a asp-action="EnviarDatosOdoo">Enviar Datos a Odoo</a>
 </p>
-// Todo esto, aunque funciona, no se puede usar para enviar a Odoo porque no se generan los xml con el formato correcto. En lugar de usar estas exportaciones se tendría que llamar a los métodos de exportación que Albert ha hecho en python
 
-<ul>
-    <li><a asp-controller="Cliente" asp-action="ExportarXmlClientes">Exportar Clientes</a></li>
-    <li><a asp-controller="Habitacion" asp-action="ExportarXmlHabitaciones">Exportar Habitaciones</a></li>
-    <li><a asp-controller="Reserva" asp-action="ExportarXmlReservas">Exportar Reservas</a></li>
-    <li><a asp-controller="Servicio" asp-action="ExportarXmlServicios">Exportar Servicios</a></li>
-    <li><a asp-controller="Oferta" asp-action="ExportarXmlOfertas">Exportar Ofertas</a></li>
-    <li><a asp-controller="TipoHabitacion" asp-action="ExportarXmlTiposHabitacion">Exportar Tipos de Habitación</a></li>
-    <li><a asp-controller="TipoAlojamiento" asp-action="ExportarXmlTiposAlojamiento">Exportar Tipos de Alojamiento</a></li>
-    <li><a asp-controller="TipoTemporada" asp-action="ExportarXmlTiposTemporada">Exportar Tipos de Temporada</a></li>
-</ul>
 
 <h1>Generar XML </h1>
 

@@ -8,10 +8,12 @@ namespace FP._059_NAGASystems_Prod3.Controllers
     public class ExportacionesController : Controller
     {
         private readonly ILogger<ExportacionesController> _logger;
+        private readonly IWebHostEnvironment _env;
 
-        public ExportacionesController(ILogger<ExportacionesController> logger)
+        public ExportacionesController(ILogger<ExportacionesController> logger, IWebHostEnvironment env)
         {
             _logger = logger;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -22,10 +24,10 @@ namespace FP._059_NAGASystems_Prod3.Controllers
         //Exportar XML por separado
         public IActionResult ExportarXML()
         {
-            string pythonScriptPath = @"C:\Users\usuario\Repositories\UOC\Nagasystems\FP.059-NAGASystems-Prod4\py\exportSeparado.py"; //Especificar la ruta personal que corresponda a cada usuario
-            string pythonExecutablePath = @"C:\Users\usuario\AppData\Local\Programs\Python\Python39\python.exe"; //Especificar la ruta personal que corresponda a cada usuario
+            string pythonScriptRelativePath = Path.Combine(_env.ContentRootPath, "py", "exportSeparado.py");
+            string pythonExecutableRelativePath = Path.Combine("C:", "Users", "usuario", "AppData", "Local", "Programs", "Python", "Python39", "python.exe");
 
-            if (!System.IO.File.Exists(pythonScriptPath) || !System.IO.File.Exists(pythonExecutablePath))
+            if (!System.IO.File.Exists(pythonScriptRelativePath) || !System.IO.File.Exists(pythonExecutableRelativePath))
             {
                 ViewBag.Error = "La ruta del script de Python o del ejecutable no es válida.";
                 _logger.LogError("La ruta del script de Python o del ejecutable no es válida.");
@@ -34,8 +36,8 @@ namespace FP._059_NAGASystems_Prod3.Controllers
 
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = pythonExecutablePath,
-                Arguments = $"\"{pythonScriptPath}\"",
+                FileName = pythonExecutableRelativePath,
+                Arguments = $"\"{pythonScriptRelativePath}\"",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
@@ -79,7 +81,7 @@ namespace FP._059_NAGASystems_Prod3.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error al ejecutar el script de Python");
-                ViewBag.Error = $"Error al intentar ejecutar el script de Python '{pythonScriptPath}': {ex.Message}";
+                ViewBag.Error = $"Error al intentar ejecutar el script de Python '{pythonScriptRelativePath}': {ex.Message}";
             }
 
             return View();
@@ -88,13 +90,13 @@ namespace FP._059_NAGASystems_Prod3.Controllers
         //Exportar XML junto
         public IActionResult ExportarXMLTodo()
         {
-            string pythonScriptPath = @"C:\Users\usuario\Repositories\UOC\Nagasystems\FP.059-NAGASystems-Prod4\py\exportJunto.py"; //Especificar la ruta personal que corresponda a cada usuario
-            string pythonExecutablePath = @"C:\Users\usuario\AppData\Local\Programs\Python\Python39\python.exe"; //Especificar la ruta personal que corresponda a cada usuario
+            string pythonScriptRelativePath = Path.Combine(_env.ContentRootPath, "py", "exportSeparado.py");
+            string pythonExecutableRelativePath = Path.Combine("C:", "Users", "usuario", "AppData", "Local", "Programs", "Python", "Python39", "python.exe");
 
             ProcessStartInfo psi = new ProcessStartInfo
             {
-                FileName = pythonExecutablePath,
-                Arguments = $"\"{pythonScriptPath}\"",
+                FileName = pythonExecutableRelativePath,
+                Arguments = $"\"{pythonScriptRelativePath}\"",
                 UseShellExecute = false,
                 CreateNoWindow = true,
                 RedirectStandardOutput = true,
