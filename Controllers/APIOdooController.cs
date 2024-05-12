@@ -14,7 +14,7 @@ public class ExportacionesController : Controller
     public IActionResult ExportarXml(string tipoExportacion)
     {
         string basePath = AppDomain.CurrentDomain.BaseDirectory;
-        string pythonScriptPath = Path.Combine(basePath, "py", "OdooExport.py");
+        string pythonScriptPath = Path.Combine("py", "OdooExport.py");
         string pythonExecutable = "python3"; 
         string args = $"{pythonScriptPath} {tipoExportacion}";
 
