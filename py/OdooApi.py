@@ -18,7 +18,7 @@ class OdooAPI:
             raise Exception("Autenticación fallida")
         return uid
 
-     def process_all_xml(self):
+    def process_all_xml(self):
         for filename in os.listdir(self.xml_directory):
             if filename.endswith(".xml"):
                 file_path = os.path.join(self.xml_directory, filename)
@@ -55,7 +55,7 @@ class OdooAPI:
 
 # Uso de la clase
 if __name__ == "__main__":
-    odoo_api = OdooAPI("https://hotelsol.odoo.com/", "hotelSol", "galmirallm@uoc.edu", "e3309d91d8119bc5830b610e4cc30cddab0b1b1e")
+    odoo_api = OdooAPI("https://hotelsol.odoo.com/", "hotelsol", "galmirallm@uoc.edu", "e3309d91d8119bc5830b610e4cc30cddab0b1b1e")
     clientes = odoo_api.read_data('res.partner', ['name', 'country_id', 'comment'])
     for cliente in clientes:
         print(cliente)

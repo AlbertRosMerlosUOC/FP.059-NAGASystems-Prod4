@@ -20,7 +20,7 @@ public class ExportacionesController : Controller
         }
 
         string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-        string relativePath = @"Scripts\ConexionOdoo.py"; // Ruta relativa desde el directorio base
+        string relativePath = @"Scripts\OdooApi.py"; // Ruta relativa desde el directorio base
         string fullPath = Path.Combine(baseDirectory, relativePath);
         string uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
 
