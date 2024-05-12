@@ -1,22 +1,25 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
     ViewData["Title"] = "Exportar Datos a XML";
 }
 
 <h2>@ViewData["Title"]</h2>
-<p>
-    <a asp-action="EnviarDatosOdoo">Enviar Datos a Odoo</a>
-</p>
-// Todo esto, aunque funciona, no se puede usar para enviar a Odoo porque no se generan los xml con el formato correcto. En lugar de usar estas exportaciones se tendría que llamar a los métodos de exportación que ALbert ha hecho en python
-<ul>
-    <li><a asp-controller="Cliente" asp-action="ExportarXmlClientes">Exportar Clientes</a></li>
-    <li><a asp-controller="Habitacion" asp-action="ExportarXmlHabitaciones">Exportar Habitaciones</a></li>
-    <li><a asp-controller="Reserva" asp-action="ExportarXmlReservas">Exportar Reservas</a></li>
-    <li><a asp-controller="Servicio" asp-action="ExportarXmlServicios">Exportar Servicios</a></li>
-    <li><a asp-controller="Oferta" asp-action="ExportarXmlOfertas">Exportar Ofertas</a></li>
-    <li><a asp-controller="TipoHabitacion" asp-action="ExportarXmlTiposHabitacion">Exportar Tipos de Habitación</a></li>
-    <li><a asp-controller="TipoAlojamiento" asp-action="ExportarXmlTiposAlojamiento">Exportar Tipos de Alojamiento</a></li>
-    <li><a asp-controller="TipoTemporada" asp-action="ExportarXmlTiposTemporada">Exportar Tipos de Temporada</a></li>
-</ul>
+
+@if (ViewBag.Message != null)
+{
+    <p>@ViewBag.Message</p>
+}
+@if (ViewBag.Error != null)
+{
+    <p style="color:red;">@ViewBag.Error</p>
+}
+
+<form asp-action="ExportarXml" asp-controller="Exportaciones" method="post">
+    <button type="submit" name="tipoExportacion" value="clientes">Exportar Clientes</button>
+    <button type="submit" name="tipoExportacion" value="habitaciones">Exportar Habitaciones</button>
+    <button type="submit" name="tipoExportacion" value="reservas">Exportar Reservas</button>
+    <button type="submit" name="tipoExportacion" value="servicios">Exportar Servicios</button>
+    <button type="submit" name="tipoExportacion" value="ofertas">Exportar Ofertas</button>
+    <button type="submit" name="tipoExportacion" value="tiposHabitacion">Exportar Tipos de Habitación</button>
+    <button type="submit" name="tipoExportacion" value="tiposAlojamiento">Exportar Tipos de Alojamiento</button>
+    <button type="submit" name="tipoExportacion" value="tiposTemporada">Exportar Tipos de Temporada</button>
+</form>
