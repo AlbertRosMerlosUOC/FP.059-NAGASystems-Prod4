@@ -2,6 +2,7 @@ import pyodbc
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
 import argparse
+import subprocess
 
 # Conectarse a la base de datos SQL Server
 conn = pyodbc.connect('DRIVER={SQL Server};SERVER=hotelsol.cnu4yaoycjpi.us-east-1.rds.amazonaws.com;DATABASE=hotelsol;UID=admin;PWD=hotelsol;Connect Timeout=30;Encrypt=True;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False')
@@ -26,6 +27,8 @@ tablas = {
     "tiposHabitacion": "SELECT id, descripcion, precio FROM tipoHabitacion",
     "tiposTemporada": "SELECT id, descripcion, coeficiente FROM tipoTemporada"
 }
+
+comando = ["python", "OdooImport.py"]
 
 # Obtener los campos de la tabla especificada
 def obtener_campos_para_tabla(tabla):
@@ -70,3 +73,6 @@ for tabla, consulta_sql in tablas.items():
         xml_string = xml.dom.minidom.parseString(ET.tostring(odoo_tree)).toprettyxml()
         with open(f'{tabla}.xml', 'w', encoding='utf-8') as xml_file:
             xml_file.write(xml_string)
+
+# Ejecución de la importación a Odoo
+subprocess.run(comando)
