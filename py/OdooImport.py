@@ -1,6 +1,6 @@
 import xmlrpc.client
-import threading
 import os
+import xml.etree.ElementTree as ET
 
 class OdooConnector:
     def __init__(self, url, db, username, password):
@@ -22,8 +22,6 @@ class OdooConnector:
                 self.models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(self.url))
                 self.connected = True
                 print("Conexion establecida correctamente.")
-                self.disconnect_timer = threading.Timer(20, self.disconnect)
-                self.disconnect_timer.start()
             else:
                 print("No se pudo autenticar.")
         else:
@@ -45,18 +43,36 @@ class OdooConnector:
         if files:
             print("Enviando archivos XML a Odoo...")
             for file in files:
-                with open(file, 'rb') as xml_file:
-                    xml_data = xml_file.read()
-                    # Modifica la llamada a create para pasar correctamente los argumentos
-                    print(xml_data)
-                    result = self.models.create(self.db, self.uid, self.password, {'model_name': 'model', 'xml_data': xml_data})
-                    print(f"Archivo {file} enviado correctamente.")
+                self.import_from_xml(file)
         else:
             print("No se encontraron archivos XML en el directorio.")
 
+    def import_from_xml(self, xml_file_path):
+        tree = ET.parse(xml_file_path)
+        root = tree.getroot()
+        for record in root.findall('.//record'):
+            model_name = record.attrib.get('model')
+            vals = {}
+            for field in record.findall('field'):
+                field_name = field.attrib.get('name')
+                field_value = field.text
+                vals[field_name] = field_value
+            try:
+                created_id = self.models.execute_kw(self.db, self.uid, self.password, model_name, 'create', [vals])
+                print(f"Registro creado en el modelo {model_name} con ID {created_id}")
+            except Exception as e:
+                print(f"Error al crear el registro en el modelo {model_name}: {e}")
+        os.remove(xml_file_path)
+
+
+# Datos de conexión
+url = "https://hotelsol.odoo.com/"
+db = "hotelsol"
+username = "galmirallm@uoc.edu"
+password = "e3309d91d8119bc5830b610e4cc30cddab0b1b1e"
 
 # Crear una instancia del conector
-connector = OdooConnector("https://hotelsol.odoo.com/", "hotelsol", "galmirallm@uoc.edu", "e3309d91d8119bc5830b610e4cc30cddab0b1b1e")
+connector = OdooConnector(url, db, username, password)
 
 # Conectar a Odoo
 connector.connect()
