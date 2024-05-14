@@ -28,7 +28,7 @@ tablas = {
     "tiposTemporada": "SELECT id, descripcion, coeficiente FROM tipoTemporada"
 }
 
-comando = ["python", "py\OdooImport.py"]
+comando = ["python", ".\OdooImport.py"]
 
 # Obtener los campos de la tabla especificada
 def obtener_campos_para_tabla(tabla):

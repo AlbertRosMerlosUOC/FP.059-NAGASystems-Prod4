@@ -58,8 +58,14 @@ class OdooConnector:
                 field_value = field.text
                 vals[field_name] = field_value
             try:
-                created_id = self.models.execute_kw(self.db, self.uid, self.password, model_name, 'create', [vals])
-                print(f"Registro creado en el modelo {model_name} con ID {created_id}")
+                pk_val = vals['x_dni']
+                registro_existente = self.models.execute_kw(self.db, self.uid, self.password, model_name, 'search', [[('x_dni', '=', pk_val)]])
+                if registro_existente:
+                    self.models.execute_kw(self.db, self.uid, self.password, model_name, 'write', [registro_existente, vals])
+                    print(f"Registro modificado en el modelo {model_name} con ID {registro_existente}")
+                else:
+                    created_id = self.models.execute_kw(self.db, self.uid, self.password, model_name, 'create', [vals])
+                    print(f"Registro creado en el modelo {model_name} con ID {created_id}")
             except Exception as e:
                 print(f"Error al crear el registro en el modelo {model_name}: {e}")
         os.remove(xml_file_path)

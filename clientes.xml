@@ -1,0 +1,82 @@
+<?xml version="1.0" ?>
+<odoo>
+	<data noupdate="0">
+		<record id="1" model="x_cliente">
+			<field name="x_dni">1</field>
+			<field name="x_nombre">prueba</field>
+			<field name="x_apellido1">Prueba1</field>
+			<field name="x_apellido2">Prueba2</field>
+			<field name="x_telefono">930492892349028</field>
+			<field name="x_direccion">prueba</field>
+			<field name="x_email">prueba@prueba.com</field>
+			<field name="x_vip">0</field>
+			<field name="x_estado">1</field>
+		</record>
+		<record id="12345678Y" model="x_cliente">
+			<field name="x_dni">12345678Y</field>
+			<field name="x_nombre">Cliente2</field>
+			<field name="x_apellido1">Cliente2Apellido1</field>
+			<field name="x_apellido2">Cliente2Apellido2</field>
+			<field name="x_telefono">911111112</field>
+			<field name="x_direccion">Avenida Falsa 123</field>
+			<field name="x_email">cliente2@ejemplo.com</field>
+			<field name="x_vip">0</field>
+			<field name="x_estado">0</field>
+		</record>
+		<record id="12345678Z" model="x_cliente">
+			<field name="x_dni">12345678Z</field>
+			<field name="x_nombre">Cliente1</field>
+			<field name="x_apellido1">Cliente1Apellido1</field>
+			<field name="x_apellido2">Cliente1Apellido2</field>
+			<field name="x_telefono">911111111</field>
+			<field name="x_direccion">Calle Falsa 123</field>
+			<field name="x_email">cliente1@ejemplo.com</field>
+			<field name="x_vip">0</field>
+			<field name="x_estado">0</field>
+		</record>
+		<record id="1239870213A" model="x_cliente">
+			<field name="x_dni">1239870213A</field>
+			<field name="x_nombre">Alejandro</field>
+			<field name="x_apellido1">wedaasd</field>
+			<field name="x_apellido2">Expósito</field>
+			<field name="x_telefono">686265853</field>
+			<field name="x_direccion">C/Delanada 932</field>
+			<field name="x_email">alejandro_ex1@hotmail.com</field>
+			<field name="x_vip">1</field>
+			<field name="x_estado">1</field>
+		</record>
+		<record id="2" model="x_cliente">
+			<field name="x_dni">2</field>
+			<field name="x_nombre">pruebados</field>
+			<field name="x_apellido1">pruebados1</field>
+			<field name="x_apellido2">pruebados2</field>
+			<field name="x_telefono">222</field>
+			<field name="x_direccion">1</field>
+			<field name="x_email">pruebados@pruebados.com</field>
+			<field name="x_vip">0</field>
+			<field name="x_estado">1</field>
+		</record>
+		<record id="47331413N" model="x_cliente">
+			<field name="x_dni">47331413N</field>
+			<field name="x_nombre">Gerard</field>
+			<field name="x_apellido1">Almirall</field>
+			<field name="x_apellido2">Merlos</field>
+			<field name="x_telefono">66929130921930</field>
+			<field name="x_direccion">falsa</field>
+			<field name="x_email">falso@falso.false</field>
+			<field name="x_vip">0</field>
+			<field name="x_estado">1</field>
+		</record>
+		<record id="68194501A" model="x_cliente">
+			<field name="x_dni">68194501A</field>
+			<field name="x_nombre">Marc</field>
+			<field name="x_apellido1">Pi</field>
+			<field name="x_apellido2">Castellnou</field>
+			<field name="x_telefono">698493029</field>
+			<field name="x_direccion">C/Sanfrancisa n22</field>
+			<field name="x_email">marcpi@gmail.fake</field>
+			<field name="x_vip">1</field>
+			<field name="x_estado">1</field>
+		</record>
+	</data>
+</odoo>
